@@ -1,0 +1,73 @@
+package com.moris.ergo.ui.screens.home
+
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
+import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
+import com.moris.ergo.ui.widgets.CategoryCarousel
+import com.moris.ergo.ui.widgets.GreetingAndSearch
+import com.moris.ergo.ui.widgets.ListingBriefInfoCarousel
+import com.moris.ergo.ui.widgets.SectionHeader
+import com.moris.ergo.ui.widgets.WorkerBriefInfoCarousel
+
+@Composable
+fun HomeScreen(
+    viewModel: HomeViewModel = hiltViewModel(),
+    onSearchClick: (() -> Unit),
+    onCategoryClick: ((String) -> Unit),
+    onWorkerClick: ((String) -> Unit),
+    onListingClick: ((String) -> Unit)
+) {
+    val isLoading by viewModel.isLoading.collectAsState()
+    val categories by viewModel.categories.collectAsState()
+    val featuredWorkers by viewModel.featuredWorkers.collectAsState()
+    val popularListings by viewModel.popularListings.collectAsState()
+
+    if(isLoading) {
+        Box(
+            modifier = Modifier.fillMaxSize(),
+            contentAlignment = Alignment.Center
+        ) {
+            CircularProgressIndicator()
+        }
+    }
+    else {
+        LazyColumn(
+            modifier = Modifier.fillMaxSize(),
+            contentPadding = PaddingValues(bottom = 16.dp)
+        ) {
+
+            item {
+                GreetingAndSearch(null, onSearchClick)
+                Spacer(Modifier.height(12.dp))
+            }
+
+            item {
+                SectionHeader("Categories")
+                CategoryCarousel(categories, onCategoryClick)
+                Spacer(Modifier.height(12.dp))
+            }
+
+            item {
+                SectionHeader("Featured Workers")
+                WorkerBriefInfoCarousel(featuredWorkers, onWorkerClick)
+                Spacer(Modifier.height(12.dp))
+            }
+
+            item {
+                SectionHeader("Popular Listings")
+                ListingBriefInfoCarousel(popularListings, onListingClick)
+            }
+        }
+    }
+}
