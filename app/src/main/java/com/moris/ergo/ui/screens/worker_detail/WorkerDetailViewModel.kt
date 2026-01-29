@@ -2,8 +2,8 @@ package com.moris.ergo.ui.screens.worker_detail
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.moris.ergo.data.api.UserResponseDTO
-import com.moris.ergo.data.api.WorkerResponseDTO
+import com.moris.ergo.data.dto.UserResponseDTO
+import com.moris.ergo.data.dto.WorkerResponseDTO
 import com.moris.ergo.data.repository.ListingRepository
 import com.moris.ergo.data.repository.UserRepository
 import com.moris.ergo.data.repository.WorkerRepository

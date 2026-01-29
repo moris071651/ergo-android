@@ -1,10 +1,10 @@
 package com.moris.ergo.data.repository
 
-import com.moris.ergo.data.api.CreateListingRequestDTO
+import com.moris.ergo.data.dto.CreateListingRequestDTO
 import com.moris.ergo.data.api.ErgoServerApi
-import com.moris.ergo.data.api.ListingResponseDTO
-import com.moris.ergo.data.api.ListingResponsePublicDTO
-import com.moris.ergo.data.api.ToggleListingActiveDTO
+import com.moris.ergo.data.dto.ListingResponseDTO
+import com.moris.ergo.data.dto.ListingResponsePublicDTO
+import com.moris.ergo.data.dto.ToggleListingActiveDTO
 import com.moris.ergo.data.scheme.ListingBriefInfo
 import com.moris.ergo.data.scheme.ListingDetailInfo
 import jakarta.inject.Inject

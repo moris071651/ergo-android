@@ -32,8 +32,8 @@ import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import coil3.compose.AsyncImage
 import com.moris.ergo.data.scheme.ListingDetailInfo
 import com.moris.ergo.data.scheme.WorkerSummaryInfo
-import com.moris.ergo.ui.widgets.StarRatingWidget
-import com.moris.ergo.ui.widgets.WorkerSmallCard
+import com.moris.ergo.ui.widgets.users.StarRatingWidget
+import com.moris.ergo.ui.widgets.workers.WorkerSmallCard
 
 @Composable
 fun ListingDetailScreen(

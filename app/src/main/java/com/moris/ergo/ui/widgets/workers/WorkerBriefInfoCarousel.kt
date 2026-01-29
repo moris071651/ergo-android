@@ -1,4 +1,4 @@
-package com.moris.ergo.ui.widgets
+package com.moris.ergo.ui.widgets.workers
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.PaddingValues

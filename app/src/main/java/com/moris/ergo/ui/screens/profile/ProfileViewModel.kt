@@ -2,13 +2,13 @@ package com.moris.ergo.ui.screens.profile
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.moris.ergo.data.api.AddressDTO
-import com.moris.ergo.data.api.AddressRepository
-import com.moris.ergo.data.api.BecomeWorkerRequestDTO
-import com.moris.ergo.data.api.CurrentUserResponseDTO
-import com.moris.ergo.data.api.CurrentWorkerResponseDTO
-import com.moris.ergo.data.api.UserLoginRequestDTO
-import com.moris.ergo.data.api.UserSignupRequestDTO
+import com.moris.ergo.data.dto.AddressDTO
+import com.moris.ergo.data.repository.AddressRepository
+import com.moris.ergo.data.dto.BecomeWorkerRequestDTO
+import com.moris.ergo.data.dto.CurrentUserResponseDTO
+import com.moris.ergo.data.dto.CurrentWorkerResponseDTO
+import com.moris.ergo.data.dto.UserLoginRequestDTO
+import com.moris.ergo.data.dto.UserSignupRequestDTO
 import com.moris.ergo.data.repository.UserRepository
 import com.moris.ergo.data.repository.WorkerRepository
 import dagger.hilt.android.lifecycle.HiltViewModel

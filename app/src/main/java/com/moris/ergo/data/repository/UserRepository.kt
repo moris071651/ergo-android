@@ -1,11 +1,10 @@
 package com.moris.ergo.data.repository
 
-import android.util.Log
-import com.moris.ergo.data.api.CurrentUserResponseDTO
+import com.moris.ergo.data.dto.CurrentUserResponseDTO
 import com.moris.ergo.data.api.ErgoServerApi
-import com.moris.ergo.data.api.UserLoginRequestDTO
-import com.moris.ergo.data.api.UserResponseDTO
-import com.moris.ergo.data.api.UserSignupRequestDTO
+import com.moris.ergo.data.dto.UserLoginRequestDTO
+import com.moris.ergo.data.dto.UserResponseDTO
+import com.moris.ergo.data.dto.UserSignupRequestDTO
 import jakarta.inject.Inject
 import jakarta.inject.Singleton
 

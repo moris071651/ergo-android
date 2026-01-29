@@ -1,4 +1,4 @@
-package com.moris.ergo.ui.widgets
+package com.moris.ergo.ui.widgets.workers
 
 import android.annotation.SuppressLint
 import androidx.compose.foundation.clickable
@@ -26,6 +26,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import com.moris.ergo.data.scheme.WorkerBriefInfo
+import com.moris.ergo.ui.widgets.users.UserAvatarIcon
 
 @Composable
 @SuppressLint("DefaultLocale")

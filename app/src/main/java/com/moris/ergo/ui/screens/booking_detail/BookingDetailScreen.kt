@@ -26,8 +26,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
-import com.moris.ergo.data.api.BookingResponseDTO
-import com.moris.ergo.data.api.BookingState
+import com.moris.ergo.data.dto.BookingResponseDTO
+import com.moris.ergo.data.dto.BookingState
 import com.stripe.android.paymentsheet.PaymentSheet
 import com.stripe.android.paymentsheet.PaymentSheet.Builder
 import com.stripe.android.paymentsheet.PaymentSheetResult

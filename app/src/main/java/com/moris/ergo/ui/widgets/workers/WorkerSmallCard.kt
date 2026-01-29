@@ -1,4 +1,4 @@
-package com.moris.ergo.ui.widgets
+package com.moris.ergo.ui.widgets.workers
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
@@ -20,6 +20,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.moris.ergo.data.scheme.WorkerSummaryInfo
+import com.moris.ergo.ui.widgets.users.StarRatingWidget
+import com.moris.ergo.ui.widgets.users.UserAvatarIcon
 
 @Composable
 fun WorkerSmallCard(

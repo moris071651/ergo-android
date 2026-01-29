@@ -2,8 +2,8 @@ package com.moris.ergo.ui.screens.booking_detail
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.moris.ergo.data.api.BookingResponseDTO
-import com.moris.ergo.data.api.CurrentUserResponseDTO
+import com.moris.ergo.data.dto.BookingResponseDTO
+import com.moris.ergo.data.dto.CurrentUserResponseDTO
 import com.moris.ergo.data.repository.BookingRepository
 import com.moris.ergo.data.repository.UserRepository
 import dagger.hilt.android.lifecycle.HiltViewModel

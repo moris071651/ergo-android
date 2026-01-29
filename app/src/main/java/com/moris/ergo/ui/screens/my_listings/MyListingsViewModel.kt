@@ -2,9 +2,9 @@ package com.moris.ergo.ui.screens.my_listings
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.moris.ergo.data.api.CreateListingRequestDTO
-import com.moris.ergo.data.api.ListingResponseDTO
-import com.moris.ergo.data.api.ToggleListingActiveDTO
+import com.moris.ergo.data.dto.CreateListingRequestDTO
+import com.moris.ergo.data.dto.ListingResponseDTO
+import com.moris.ergo.data.dto.ToggleListingActiveDTO
 import com.moris.ergo.data.repository.ListingRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import jakarta.inject.Inject

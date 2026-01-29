@@ -1,8 +1,7 @@
 package com.moris.ergo.di
 
-import android.content.Context
-import com.moris.ergo.data.api.AddressRepository
-import com.moris.ergo.data.api.AddressRepositoryImpl
+import com.moris.ergo.data.repository.AddressRepository
+import com.moris.ergo.data.repository.AddressRepositoryImpl
 import com.moris.ergo.data.api.ErgoServerApi
 import com.moris.ergo.data.repository.BookingRepository
 import com.moris.ergo.data.repository.BookingRepositoryImpl
@@ -15,19 +14,12 @@ import com.moris.ergo.data.repository.WorkerRepositoryImpl
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
-import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import jakarta.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
 object RepositoryModule {
-
-    @Provides
-    @Singleton
-    fun provideErgoServerApi(@ApplicationContext context: Context):
-            ErgoServerApi = ErgoServerApi(context)
-
     @Provides
     @Singleton
     fun provideListingRepository(api: ErgoServerApi): ListingRepository =

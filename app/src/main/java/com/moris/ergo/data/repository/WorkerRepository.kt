@@ -1,11 +1,11 @@
 package com.moris.ergo.data.repository
 
 import android.util.Log
-import com.moris.ergo.data.api.BecomeWorkerRequestDTO
-import com.moris.ergo.data.api.CurrentWorkerResponseDTO
+import com.moris.ergo.data.dto.BecomeWorkerRequestDTO
+import com.moris.ergo.data.dto.CurrentWorkerResponseDTO
 import com.moris.ergo.data.api.ErgoServerApi
-import com.moris.ergo.data.api.StripeOnboardingLinkDTO
-import com.moris.ergo.data.api.WorkerResponseDTO
+import com.moris.ergo.data.dto.StripeOnboardingLinkDTO
+import com.moris.ergo.data.dto.WorkerResponseDTO
 import io.ktor.client.plugins.ClientRequestException
 import io.ktor.http.HttpStatusCode
 import jakarta.inject.Inject

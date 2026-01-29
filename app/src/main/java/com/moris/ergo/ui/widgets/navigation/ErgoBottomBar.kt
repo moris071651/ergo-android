@@ -1,4 +1,4 @@
-package com.moris.ergo.ui.widgets
+package com.moris.ergo.ui.widgets.navigation
 
 import androidx.compose.material3.Icon
 import androidx.compose.material3.NavigationBar

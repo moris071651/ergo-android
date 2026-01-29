@@ -2,9 +2,9 @@ package com.moris.ergo.ui.screens.booking
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.moris.ergo.data.api.AddressDTO
-import com.moris.ergo.data.api.AddressRepository
-import com.moris.ergo.data.api.CreateBookingRequestDTO
+import com.moris.ergo.data.dto.AddressDTO
+import com.moris.ergo.data.repository.AddressRepository
+import com.moris.ergo.data.dto.CreateBookingRequestDTO
 import com.moris.ergo.data.repository.BookingRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import jakarta.inject.Inject

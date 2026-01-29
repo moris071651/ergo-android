@@ -1,4 +1,4 @@
-package com.moris.ergo.ui.widgets
+package com.moris.ergo.ui.widgets.users
 
 import android.annotation.SuppressLint
 import androidx.compose.foundation.layout.Row

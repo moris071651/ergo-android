@@ -25,8 +25,8 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
-import com.moris.ergo.data.api.AddressDTO
-import com.moris.ergo.data.api.BecomeWorkerRequestDTO
+import com.moris.ergo.data.dto.AddressDTO
+import com.moris.ergo.data.dto.BecomeWorkerRequestDTO
 
 @Composable
 fun BecomeWorkerScreen(

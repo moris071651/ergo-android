@@ -1,9 +1,9 @@
 package com.moris.ergo.data.repository
 
 import android.util.Log
-import com.moris.ergo.data.api.BookingResponseDTO
-import com.moris.ergo.data.api.CreateBookingRequestDTO
-import com.moris.ergo.data.api.CreateBookingResponseDTO
+import com.moris.ergo.data.dto.BookingResponseDTO
+import com.moris.ergo.data.dto.CreateBookingRequestDTO
+import com.moris.ergo.data.dto.CreateBookingResponseDTO
 import com.moris.ergo.data.api.ErgoServerApi
 import io.ktor.client.plugins.ClientRequestException
 import io.ktor.http.HttpStatusCode

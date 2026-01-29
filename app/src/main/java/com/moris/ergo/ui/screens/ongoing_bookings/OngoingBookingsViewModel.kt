@@ -2,7 +2,7 @@ package com.moris.ergo.ui.screens.ongoing_bookings
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.moris.ergo.data.api.BookingResponseDTO
+import com.moris.ergo.data.dto.BookingResponseDTO
 import com.moris.ergo.data.repository.BookingRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import jakarta.inject.Inject

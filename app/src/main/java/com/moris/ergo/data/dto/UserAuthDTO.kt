@@ -1,4 +1,4 @@
-package com.moris.ergo.data.api
+package com.moris.ergo.data.dto
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable

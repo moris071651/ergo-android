@@ -1,4 +1,4 @@
-package com.moris.ergo.ui.widgets
+package com.moris.ergo.ui.widgets.workers
 
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text

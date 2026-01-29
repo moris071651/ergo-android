@@ -18,7 +18,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
-import com.moris.ergo.data.api.UserSignupRequestDTO
+import com.moris.ergo.data.dto.UserSignupRequestDTO
 
 @Composable
 fun SignupScreen(

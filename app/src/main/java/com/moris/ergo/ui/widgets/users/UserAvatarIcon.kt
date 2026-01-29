@@ -1,4 +1,4 @@
-package com.moris.ergo.ui.widgets
+package com.moris.ergo.ui.widgets.users
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box

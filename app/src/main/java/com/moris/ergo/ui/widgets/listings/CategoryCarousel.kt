@@ -1,4 +1,4 @@
-package com.moris.ergo.ui.widgets
+package com.moris.ergo.ui.widgets.listings
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement

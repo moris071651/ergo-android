@@ -1,18 +1,29 @@
 package com.moris.ergo.data.api
 
 import android.content.Context
-import android.os.AsyncTask.execute
+import com.moris.ergo.data.dto.AddressDTO
+import com.moris.ergo.data.dto.BecomeWorkerRequestDTO
+import com.moris.ergo.data.dto.BookingResponseDTO
+import com.moris.ergo.data.dto.CreateAddressRequestDTO
+import com.moris.ergo.data.dto.CreateBookingRequestDTO
+import com.moris.ergo.data.dto.CreateBookingResponseDTO
+import com.moris.ergo.data.dto.CreateListingRequestDTO
+import com.moris.ergo.data.dto.CurrentUserResponseDTO
+import com.moris.ergo.data.dto.CurrentWorkerResponseDTO
+import com.moris.ergo.data.dto.ListingResponseDTO
+import com.moris.ergo.data.dto.ListingResponsePublicDTO
+import com.moris.ergo.data.dto.StripeOnboardingLinkDTO
+import com.moris.ergo.data.dto.ToggleListingActiveDTO
+import com.moris.ergo.data.dto.UserAuthResponseDTO
+import com.moris.ergo.data.dto.UserLoginRequestDTO
+import com.moris.ergo.data.dto.UserResponseDTO
+import com.moris.ergo.data.dto.UserSignupRequestDTO
+import com.moris.ergo.data.dto.WorkerResponseDTO
 import dagger.hilt.android.qualifiers.ApplicationContext
 import io.ktor.client.HttpClient
 import io.ktor.client.call.body
 import io.ktor.client.engine.cio.CIO
-import io.ktor.client.plugins.ClientRequestException
-import io.ktor.client.plugins.HttpRequestRetry
-import io.ktor.client.plugins.HttpResponseValidator
-import io.ktor.client.plugins.HttpSend
 import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
-import io.ktor.client.plugins.cookies.AcceptAllCookiesStorage
-import io.ktor.client.plugins.cookies.CookiesStorage
 import io.ktor.client.plugins.cookies.HttpCookies
 import io.ktor.client.request.delete
 import io.ktor.client.request.get
@@ -21,13 +32,11 @@ import io.ktor.client.request.patch
 import io.ktor.client.request.post
 import io.ktor.client.request.setBody
 import io.ktor.http.ContentType
-import io.ktor.http.HttpStatusCode
 import io.ktor.http.contentType
 import io.ktor.http.isSuccess
 import io.ktor.serialization.kotlinx.json.json
 import jakarta.inject.Inject
 import jakarta.inject.Singleton
-import kotlinx.coroutines.runBlocking
 import kotlinx.serialization.json.Json
 
 @Singleton

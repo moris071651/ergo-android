@@ -2,7 +2,6 @@ package com.moris.ergo.ui.screens.ongoing_bookings
 
 import android.content.Context
 import android.content.Intent
-import android.net.Uri
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -33,7 +32,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
-import com.moris.ergo.data.api.BookingResponseDTO
+import com.moris.ergo.data.dto.BookingResponseDTO
 import androidx.core.net.toUri
 
 @Composable

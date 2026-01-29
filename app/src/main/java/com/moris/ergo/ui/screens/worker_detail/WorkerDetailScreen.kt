@@ -23,13 +23,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
-import com.moris.ergo.data.api.UserResponseDTO
-import com.moris.ergo.data.api.WorkerResponseDTO
+import com.moris.ergo.data.dto.UserResponseDTO
+import com.moris.ergo.data.dto.WorkerResponseDTO
 import com.moris.ergo.data.scheme.ListingBriefInfo
-import com.moris.ergo.ui.widgets.ListingBriefInfoCarousel
-import com.moris.ergo.ui.widgets.SectionHeader
-import com.moris.ergo.ui.widgets.StarRatingWidget
-import com.moris.ergo.ui.widgets.UserAvatarIcon
+import com.moris.ergo.ui.widgets.listings.ListingBriefInfoCarousel
+import com.moris.ergo.ui.widgets.common.SectionHeader
+import com.moris.ergo.ui.widgets.users.StarRatingWidget
+import com.moris.ergo.ui.widgets.users.UserAvatarIcon
 
 @Composable
 fun WorkerDetailScreen(

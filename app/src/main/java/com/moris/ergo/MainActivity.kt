@@ -25,13 +25,13 @@ import androidx.navigation.compose.rememberNavController
 import com.moris.ergo.ui.navigation.ErgoNavHost
 import com.moris.ergo.ui.screens.profile.ProfileViewModel
 import com.moris.ergo.ui.theme.ErgoTheme
-import com.moris.ergo.ui.widgets.ErgoBottomBar
-import com.moris.ergo.ui.widgets.ErgoBottomBarAction
-import com.moris.ergo.ui.widgets.ErgoTopBar
-import com.moris.ergo.ui.widgets.ErgoTopBarAction
+import com.moris.ergo.ui.widgets.navigation.ErgoBottomBar
+import com.moris.ergo.ui.widgets.navigation.ErgoBottomBarAction
+import com.moris.ergo.ui.widgets.navigation.ErgoTopBar
+import com.moris.ergo.ui.widgets.navigation.ErgoTopBarAction
 import com.stripe.android.PaymentConfiguration
 import dagger.hilt.android.AndroidEntryPoint
-import com.moris.ergo.BuildConfig
+
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     private val viewModel: ProfileViewModel by viewModels()

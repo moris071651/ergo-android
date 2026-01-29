@@ -24,7 +24,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
-import com.moris.ergo.data.api.CreateAddressRequestDTO
+import com.moris.ergo.data.dto.CreateAddressRequestDTO
 
 @Composable
 fun AddressFormScreen(

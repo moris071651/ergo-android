@@ -1,5 +1,8 @@
-package com.moris.ergo.data.api
+package com.moris.ergo.data.repository
 
+import com.moris.ergo.data.api.ErgoServerApi
+import com.moris.ergo.data.dto.AddressDTO
+import com.moris.ergo.data.dto.CreateAddressRequestDTO
 import jakarta.inject.Inject
 import jakarta.inject.Singleton
 

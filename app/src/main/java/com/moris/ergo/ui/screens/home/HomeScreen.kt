@@ -14,11 +14,11 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
-import com.moris.ergo.ui.widgets.CategoryCarousel
-import com.moris.ergo.ui.widgets.GreetingAndSearch
-import com.moris.ergo.ui.widgets.ListingBriefInfoCarousel
-import com.moris.ergo.ui.widgets.SectionHeader
-import com.moris.ergo.ui.widgets.WorkerBriefInfoCarousel
+import com.moris.ergo.ui.widgets.listings.CategoryCarousel
+import com.moris.ergo.ui.widgets.common.GreetingAndSearch
+import com.moris.ergo.ui.widgets.listings.ListingBriefInfoCarousel
+import com.moris.ergo.ui.widgets.common.SectionHeader
+import com.moris.ergo.ui.widgets.workers.WorkerBriefInfoCarousel
 
 @Composable
 fun HomeScreen(
