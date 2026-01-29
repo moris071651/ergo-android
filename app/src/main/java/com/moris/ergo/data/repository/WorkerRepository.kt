@@ -4,8 +4,11 @@ import android.util.Log
 import com.moris.ergo.data.dto.BecomeWorkerRequestDTO
 import com.moris.ergo.data.dto.CurrentWorkerResponseDTO
 import com.moris.ergo.data.api.ErgoServerApi
+import com.moris.ergo.data.dto.PopularWorkerResponseDTO
 import com.moris.ergo.data.dto.StripeOnboardingLinkDTO
 import com.moris.ergo.data.dto.WorkerResponseDTO
+import com.moris.ergo.data.mapper.toWorkerBriefInfo
+import com.moris.ergo.data.scheme.WorkerBriefInfo
 import io.ktor.client.plugins.ClientRequestException
 import io.ktor.http.HttpStatusCode
 import jakarta.inject.Inject
@@ -16,6 +19,7 @@ interface WorkerRepository {
     suspend fun getCurrentWorker(): CurrentWorkerResponseDTO?
     suspend fun getStripeOnboardingLink(): StripeOnboardingLinkDTO
     suspend fun getWorkerById(userId: String): WorkerResponseDTO
+    suspend fun getPopularWorkerByCity(limit: Int, city: String): List<WorkerBriefInfo>
 }
 
 @Singleton
@@ -50,4 +54,9 @@ class WorkerRepositoryImpl @Inject constructor(
     override suspend fun getWorkerById(userId: String): WorkerResponseDTO =
         api.getWorkerById(userId)
 
+    override suspend fun getPopularWorkerByCity(limit: Int, city: String): List<WorkerBriefInfo> =
+        api.getPopularWorker(limit = limit, city = city).map {
+            Log.d("DEBUG32", it.userId)
+            it.toWorkerBriefInfo()
+        }
 }

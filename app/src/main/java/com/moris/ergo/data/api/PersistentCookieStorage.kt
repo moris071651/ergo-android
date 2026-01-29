@@ -47,7 +47,6 @@ data class SerializableCookie(
             return SerializableCookie(
                 name = cookie.name,
                 value = cookie.value,
-                // Explicitly fill domain/path from URL if missing to satisfy Ktor's matcher
                 domain = cookie.domain?.trimStart('.') ?: requestUrl.host,
                 path = cookie.path ?: "/",
                 secure = cookie.secure,

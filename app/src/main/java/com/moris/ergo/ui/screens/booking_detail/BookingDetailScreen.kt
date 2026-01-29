@@ -1,5 +1,6 @@
 package com.moris.ergo.ui.screens.booking_detail
 
+import android.util.Log
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -201,6 +202,8 @@ fun BookingPrimaryAction(
         }
 
         BookingState.PENDING_PAYMENT -> {
+            Log.d("DEBUG", "isWorker: $isWorker")
+            Log.d("DEBUG", "booking.clientSecret: ${booking.clientSecret != null}")
             if (!isWorker && booking.clientSecret != null) {
                 Button(
                     modifier = modifier.fillMaxWidth(),

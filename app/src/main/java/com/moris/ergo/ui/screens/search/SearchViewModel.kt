@@ -1,7 +1,11 @@
 package com.moris.ergo.ui.screens.search
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.moris.ergo.data.dto.ListingResponsePublicDTO
+import com.moris.ergo.data.mapper.toListingBriefInfo
+import com.moris.ergo.data.repository.ListingRepository
 import com.moris.ergo.data.scheme.ListingBriefInfo
 import dagger.hilt.android.lifecycle.HiltViewModel
 import jakarta.inject.Inject
@@ -11,7 +15,9 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 
 @HiltViewModel
-class SearchViewModel @Inject constructor() : ViewModel() {
+class SearchViewModel @Inject constructor(
+    private val listingRepository: ListingRepository
+) : ViewModel() {
 
     private val _query = MutableStateFlow("")
     val query: StateFlow<String> = _query
@@ -32,52 +38,24 @@ class SearchViewModel @Inject constructor() : ViewModel() {
 
         viewModelScope.launch {
             _isLoading.value = true
-
-            delay(600)
-
-            _results.value = fakeSearch(currentQuery)
+            _results.value = search(currentQuery)
             _isLoading.value = false
         }
     }
 
-    private fun fakeSearch(query: String): List<ListingBriefInfo> {
-        val allListings = listOf(
-            ListingBriefInfo(
-                id = "1",
-                title = "Home Electrical Repair",
-                priceString = "$80 / hr",
-                rating = 4.8,
-                description = "s",
-                primaryImageUrl = ""
-            ),
-            ListingBriefInfo(
-                id = "2",
-                title = "Plumbing Services",
-                priceString = "$60 / hr",
-                rating = 4.6,
-                description = "s",
-                primaryImageUrl = ""
-            ),
-            ListingBriefInfo(
-                id = "4",
-                title = "Home Electrical Repair Service",
-                description = "Professional electrical repair service for homes. Includes wiring fixes, socket replacement, and safety inspection. Fast, reliable, and guaranteed work for your safety and comfort.",
-                priceString = "$80",
-                rating = 4.8,
-                primaryImageUrl = "https://img.freepik.com/free-photo/lavender-field-sunset-near-valensole_268835-3910.jpg?semt=ais_hybrid&w=740&q=80"
-            ),
-            ListingBriefInfo(
-                id = "3",
-                title = "House Painting",
-                priceString = "$100 / day",
-                rating = 4.7,
-                description = "s",
-                primaryImageUrl = ""
-            )
-        )
+    private suspend fun search(query: String): List<ListingBriefInfo> {
+        var allListings:  List<ListingResponsePublicDTO>? = null;
 
-        return allListings.filter {
-            it.title.contains(query, ignoreCase = true)
+        try {
+            allListings = listingRepository.searchListingByCity(query, "sofia");
         }
+        catch (e: Exception) {
+            Log.e("SearchViewModel", "Failed to load listings", e)
+            allListings = null
+        }
+
+        return allListings?.map {
+            it.toListingBriefInfo()
+        } ?: listOf()
     }
 }

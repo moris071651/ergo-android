@@ -144,7 +144,15 @@ fun ListingDetailScreenContent(
 
                     Spacer(modifier = Modifier.height(4.dp))
 
-                    StarRatingWidget(listing.rating)
+                    Row() {
+                        StarRatingWidget(listing.rating)
+                        Spacer(modifier = Modifier.weight(1f))
+                        Text(
+                            text = listing.priceString,
+                            style = MaterialTheme.typography.labelMedium,
+                            fontWeight = FontWeight.Bold
+                        )
+                    }
                 }
 
                 Spacer(modifier = Modifier.height(12.dp))

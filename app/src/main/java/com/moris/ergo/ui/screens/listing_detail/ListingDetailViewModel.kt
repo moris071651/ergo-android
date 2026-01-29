@@ -48,11 +48,7 @@ class ListingDetailViewModel @Inject constructor(
                 visitRequired = l.visitRequired,
                 durationDays = l.durationDays,
                 ownerId = l.ownerId,
-                imageUrls = listOf(
-                    "https://img.freepik.com/free-photo/lavender-field-sunset-near-valensole_268835-3910.jpg?semt=ais_hybrid&w=740&q=80",
-                    "https://img.freepik.com/free-photo/lavender-field-sunset-near-valensole_268835-3910.jpg?semt=ais_hybrid&w=740&q=80",
-                    "https://img.freepik.com/free-photo/lavender-field-sunset-near-valensole_268835-3910.jpg?semt=ais_hybrid&w=740&q=80"
-                )
+                imageUrls = listOf()
             )
 
             val worker = WorkerSummaryInfo(

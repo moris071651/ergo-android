@@ -19,6 +19,7 @@ interface ListingRepository {
     suspend fun createListing(request: CreateListingRequestDTO): ListingResponseDTO
     suspend fun deleteListing(id: String)
     suspend fun toggleListingActive(id: String, request: ToggleListingActiveDTO): ListingResponseDTO
+    suspend fun searchListingByCity(query: String, city: String?): List<ListingResponsePublicDTO>
 }
 
 class ListingRepositoryImpl @Inject constructor(
@@ -33,7 +34,7 @@ class ListingRepositoryImpl @Inject constructor(
                 description = it.description ?: "",
                 priceString = it.priceString,
                 rating = 4.0, // placeholder
-                primaryImageUrl = "" // placeholder for now
+                primaryImageUrl = "" // placeholder
             )
         }
     }
@@ -46,7 +47,7 @@ class ListingRepositoryImpl @Inject constructor(
                 description = it.description ?: "",
                 priceString = it.priceString,
                 rating = 4.0, // placeholder
-                primaryImageUrl = "" // placeholder for now
+                primaryImageUrl = "" // placeholder
             )
         }
     }
@@ -77,4 +78,7 @@ class ListingRepositoryImpl @Inject constructor(
     override suspend fun deleteListing(id: String) = api.deleteListing(id)
     override suspend fun toggleListingActive(id: String, request: ToggleListingActiveDTO): ListingResponseDTO =
         api.toggleListingActive(id, request)
+
+    override suspend fun searchListingByCity(query: String, city: String?): List<ListingResponsePublicDTO> =
+        api.searchListingByCity(query, city)
 }

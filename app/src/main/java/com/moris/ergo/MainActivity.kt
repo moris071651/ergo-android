@@ -86,7 +86,7 @@ fun TopBar(
     navController: NavHostController,
     currentRoute: String?
 ) {
-    val title: String = currentRoute?.replaceFirstChar { it.uppercase() } ?: "Unknown"
+    val title: String = currentRoute?.substringBefore("/")?.replaceFirstChar { it.uppercase() } ?: "Unknown"
     var leftAction: ErgoTopBarAction? = null
     var rightAction: ErgoTopBarAction? = null
 
@@ -127,11 +127,6 @@ fun BottomBar(
             label = "Home",
             icon = Icons.Default.Home,
             onClick = { navController.navigate("home") }
-        ),
-        ErgoBottomBarAction(
-            label = "Favorites",
-            icon = Icons.Default.Favorite,
-            onClick = { navController.navigate("favorites") }
         ),
         ErgoBottomBarAction(
             label = "Ongoing",

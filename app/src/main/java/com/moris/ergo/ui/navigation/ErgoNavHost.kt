@@ -34,7 +34,6 @@ fun ErgoNavHost(
         composable("home") {
             HomeScreen(
                 onSearchClick = { navController.navigate("search") },
-                onCategoryClick = { navController.navigate("categories/$it/listings") },
                 onWorkerClick = { navController.navigate("detail/workers/$it") },
                 onListingClick = { navController.navigate("detail/listings/$it") }
             )

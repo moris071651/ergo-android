@@ -55,7 +55,6 @@ fun SearchScreen(
             .padding(16.dp)
     ) {
 
-        // 🔍 Search input
         OutlinedTextField(
             value = query,
             onValueChange = viewModel::onQueryChange,
@@ -79,7 +78,6 @@ fun SearchScreen(
 
         Spacer(modifier = Modifier.height(16.dp))
 
-        // 📋 Results
         LazyColumn(
             verticalArrangement = Arrangement.spacedBy(12.dp)
         ) {
@@ -109,7 +107,6 @@ fun ListingSearchCard(
     ) {
         Column(modifier = Modifier.fillMaxSize()) {
 
-            // 🖼️ Image
             AsyncImage(
                 model = listing.primaryImageUrl,
                 contentDescription = null,
@@ -119,7 +116,6 @@ fun ListingSearchCard(
                     .fillMaxWidth()
             )
 
-            // 📄 Content
             Column(
                 modifier = Modifier
                     .padding(horizontal = 16.dp, vertical = 12.dp)

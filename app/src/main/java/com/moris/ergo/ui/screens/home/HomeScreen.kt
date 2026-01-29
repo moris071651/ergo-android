@@ -14,7 +14,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
-import com.moris.ergo.ui.widgets.listings.CategoryCarousel
 import com.moris.ergo.ui.widgets.common.GreetingAndSearch
 import com.moris.ergo.ui.widgets.listings.ListingBriefInfoCarousel
 import com.moris.ergo.ui.widgets.common.SectionHeader
@@ -24,13 +23,11 @@ import com.moris.ergo.ui.widgets.workers.WorkerBriefInfoCarousel
 fun HomeScreen(
     viewModel: HomeViewModel = hiltViewModel(),
     onSearchClick: (() -> Unit),
-    onCategoryClick: ((String) -> Unit),
     onWorkerClick: ((String) -> Unit),
     onListingClick: ((String) -> Unit)
 ) {
     val isLoading by viewModel.isLoading.collectAsState()
-    val categories by viewModel.categories.collectAsState()
-    val featuredWorkers by viewModel.featuredWorkers.collectAsState()
+    val popularWorkers by viewModel.popularWorkers.collectAsState()
     val popularListings by viewModel.popularListings.collectAsState()
 
     if(isLoading) {
@@ -46,21 +43,14 @@ fun HomeScreen(
             modifier = Modifier.fillMaxSize(),
             contentPadding = PaddingValues(bottom = 16.dp)
         ) {
-
             item {
                 GreetingAndSearch(null, onSearchClick)
                 Spacer(Modifier.height(12.dp))
             }
 
             item {
-                SectionHeader("Categories")
-                CategoryCarousel(categories, onCategoryClick)
-                Spacer(Modifier.height(12.dp))
-            }
-
-            item {
-                SectionHeader("Featured Workers")
-                WorkerBriefInfoCarousel(featuredWorkers, onWorkerClick)
+                SectionHeader("Popular Workers")
+                WorkerBriefInfoCarousel(popularWorkers, onWorkerClick)
                 Spacer(Modifier.height(12.dp))
             }
 

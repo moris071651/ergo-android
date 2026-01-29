@@ -12,6 +12,7 @@ import com.moris.ergo.data.dto.CurrentUserResponseDTO
 import com.moris.ergo.data.dto.CurrentWorkerResponseDTO
 import com.moris.ergo.data.dto.ListingResponseDTO
 import com.moris.ergo.data.dto.ListingResponsePublicDTO
+import com.moris.ergo.data.dto.PopularWorkerResponseDTO
 import com.moris.ergo.data.dto.StripeOnboardingLinkDTO
 import com.moris.ergo.data.dto.ToggleListingActiveDTO
 import com.moris.ergo.data.dto.UserAuthResponseDTO
@@ -53,32 +54,10 @@ class ErgoServerApi @Inject constructor(
 
         install(HttpCookies) {
             storage = PersistentCookieStorage(context)
-//            storage = AcceptAllCookiesStorage()
         }
-
-//        HttpResponseValidator {
-//            handleResponseExceptionWithRequest { cause, request ->
-//                if (cause is ClientRequestException && cause.response.status == HttpStatusCode.Unauthorized) {
-//                    val refreshed = runBlocking { refreshAccessToken() }
-//                    if (!refreshed) {
-//                        throw cause
-//                    }
-//                }
-//                else {
-//                    throw cause
-//                }
-//            }
-//        }
-//
-//        install(HttpRequestRetry) {
-//            retryOnException(maxRetries = 1)
-//            retryIf { request, response ->
-//                response.status == HttpStatusCode.Unauthorized
-//            }
-//        }
     }
 
-    private val BASE_URL = "https://ad12f66a1bc4.ngrok-free.app" // Ngrok or deployed API
+    private val BASE_URL = "https://c21a2c47303f.ngrok-free.app"
 
     suspend fun signup(request: UserSignupRequestDTO): UserAuthResponseDTO {
         return client.post("$BASE_URL/api/v1/auth/signup") {
@@ -120,6 +99,7 @@ class ErgoServerApi @Inject constructor(
         maxPrice: Float? = null,
         city: String? = null,
         title: String? = null,
+        query: String? = null,
         category: String? = null,
         limit: Int? = null
     ): List<ListingResponsePublicDTO> {
@@ -128,6 +108,7 @@ class ErgoServerApi @Inject constructor(
             parameter("max_price", maxPrice)
             parameter("city", city)
             parameter("title", title)
+            parameter("query", query)
             parameter("category", category)
             parameter("limit", limit)
         }.body()
@@ -238,4 +219,19 @@ class ErgoServerApi @Inject constructor(
 
     suspend fun denyFinish(bookingId: String): BookingResponseDTO =
         client.post("$BASE_URL/api/v1/bookings/$bookingId/finish/deny").body()
+
+    suspend fun searchListingByCity(query: String, city: String?): List<ListingResponsePublicDTO> =
+        getListings(query = query, city = city)
+
+    suspend fun getPopularWorker(
+        city: String? = null,
+        name: String? = null,
+        limit: Int? = null
+    ): List<PopularWorkerResponseDTO> {
+        return client.get("$BASE_URL/api/v1/workers/popular") {
+            parameter("city", city)
+            parameter("name", name)
+            parameter("limit", limit)
+        }.body()
+    }
 }
