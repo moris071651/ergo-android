@@ -63,9 +63,11 @@ class ProfileViewModel @Inject constructor(
             try {
                 userRepo.login(request)
                 onSuccess()
-            } catch (e: Exception) {
+            }
+            catch (e: Exception) {
                 _error.value = e.message ?: "Login failed"
-            } finally {
+            }
+            finally {
                 _isLoading.value = false
             }
         }
@@ -154,5 +156,9 @@ class ProfileViewModel @Inject constructor(
                 _isLoading.value = false
             }
         }
+    }
+
+    fun clearError() {
+        _error.value = null
     }
 }
