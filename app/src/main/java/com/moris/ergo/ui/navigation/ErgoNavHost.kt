@@ -65,9 +65,11 @@ fun ErgoNavHost(
             ProfileScreen(
                 onLoginClick = { navController.navigate("profile/login") },
                 onSignupClick = { navController.navigate("profile/signup") },
-                onAddressButtonClick = { navController.navigate("profile/address") },
-                onBecomeWorkerClick = { navController.navigate("profile/worker/become") },
-                onMyListingsClick = { navController.navigate("profile/worker/listings") }
+                onMyPersonalInfoClick = { navController.navigate("profile/signup") },
+                onMyWorkerInfoClick = { navController.navigate("profile/signup") },
+                onMyAddressesClick = { navController.navigate("profile/address") },
+                onMyListingsClick = { navController.navigate("profile/worker/listings") },
+                onBecomeWorkerClick = { navController.navigate("profile/worker/become") }
             )
         }
         composable("profile/login") {
@@ -132,8 +134,6 @@ fun ErgoNavHost(
                 bookingId = bookingId,
                 onPaymentSuccess = { },
             )
-
         }
-
     }
 }
