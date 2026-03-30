@@ -65,8 +65,8 @@ fun ErgoNavHost(
             ProfileScreen(
                 onLoginClick = { navController.navigate("profile/login") },
                 onSignupClick = { navController.navigate("profile/signup") },
-                onMyPersonalInfoClick = { navController.navigate("profile/signup") },
-                onMyWorkerInfoClick = { navController.navigate("profile/signup") },
+                onMyPersonalInfoClick = { },
+                onMyWorkerInfoClick = { },
                 onMyAddressesClick = { navController.navigate("profile/address") },
                 onMyListingsClick = { navController.navigate("profile/worker/listings") },
                 onBecomeWorkerClick = { navController.navigate("profile/worker/become") }
