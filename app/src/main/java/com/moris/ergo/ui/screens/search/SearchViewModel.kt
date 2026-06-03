@@ -47,7 +47,7 @@ class SearchViewModel @Inject constructor(
         var allListings:  List<ListingResponsePublicDTO>? = null;
 
         try {
-            allListings = listingRepository.searchListingByCity(query, "sofia");
+            allListings = listingRepository.searchListingByCity(query, "sofia")
         }
         catch (e: Exception) {
             Log.e("SearchViewModel", "Failed to load listings", e)
@@ -55,7 +55,9 @@ class SearchViewModel @Inject constructor(
         }
 
         return allListings?.map {
-            it.toListingBriefInfo()
+            it.toListingBriefInfo().apply {
+                primaryImageUrl = listingRepository.getListingPrimaryImagesById(it.id)?.url ?: ""
+            }
         } ?: listOf()
     }
 }

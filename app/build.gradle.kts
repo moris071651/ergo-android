@@ -33,6 +33,9 @@ android {
 
         val stripeKey = properties.getProperty("STRIPE_PUBLISHABLE_KEY") ?: ""
         buildConfigField("String", "STRIPE_PUBLISHABLE_KEY", "\"$stripeKey\"")
+
+        val apiUrl = properties.getProperty("EROG_SERVER_API") ?: ""
+        buildConfigField("String", "EROG_SERVER_API", "\"$apiUrl\"")
     }
 
 
@@ -71,9 +74,12 @@ dependencies {
     implementation(libs.coil.compose)
     implementation(libs.coil.network.ktor3)
 
+    implementation(libs.osmdroid.android)
+
     implementation(libs.ktor.client.content.negotiation)
     implementation(libs.ktor.serialization.kotlinx.json)
     implementation(libs.kotlinx.serialization.json)
+    implementation(libs.ktor.client.auth)
 
     implementation(libs.hilt.android)
     implementation(libs.androidx.browser)
