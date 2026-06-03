@@ -1,5 +1,6 @@
 package com.moris.ergo.ui.screens.profile
 
+import android.util.Log
 import android.widget.Toast
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -59,6 +60,7 @@ fun SignupScreen(
     LaunchedEffect(error) {
         error?.let {
             Toast.makeText(context, it, Toast.LENGTH_SHORT).show()
+            Log.d("hello1", it)
             viewModel.clearError()
         }
     }

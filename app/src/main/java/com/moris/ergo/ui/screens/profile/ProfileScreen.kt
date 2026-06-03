@@ -53,7 +53,7 @@ import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import com.moris.ergo.data.dto.CurrentUserResponseDTO
 import com.moris.ergo.data.dto.CurrentWorkerResponseDTO
 import androidx.core.net.toUri
-import com.moris.ergo.ui.widgets.common.UserProfilePicture
+import com.moris.ergo.ui.widgets.users.UserAvatarIcon
 
 @Composable
 fun ProfileScreen(
@@ -205,8 +205,8 @@ private fun ProfileContent(
                 .padding(vertical = 32.dp),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            UserProfilePicture(
-                profileImageUrl = user.profileImageUrl,
+            UserAvatarIcon(
+                pfpUrl = user.profileImageUrl,
                 modifier = Modifier.size(110.dp)
             )
             Spacer(Modifier.height(16.dp))
@@ -345,7 +345,7 @@ fun PreviewProfileContent() {
         bio = "Experienced plumber available for hire. Experienced plumber available for hire. Experienced plumber available for hire. Experienced plumber available for hire. Experienced plumber available for hire.",
         serviceRadiusKm = 5,
         experienceYears = 20,
-        skills = listOf("Plumbing", "Electrical"),
+        skills = listOf("Plumber", "Electrical"),
         available = true,
         createdAt = "2023-10-01",
         updatedAt = "2023-10-01",

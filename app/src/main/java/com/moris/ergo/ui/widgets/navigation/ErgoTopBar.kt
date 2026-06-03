@@ -20,17 +20,12 @@ data class ErgoTopBarAction(
 @Composable
 @OptIn(ExperimentalMaterial3Api::class)
 fun ErgoTopBar(
-    title: String,
+    title: @Composable (() -> Unit),
     rightAction: ErgoTopBarAction? = null,
     leftAction: ErgoTopBarAction? = null
 ) {
     CenterAlignedTopAppBar(
-        title = {
-            Text(
-                text = title,
-                fontWeight = FontWeight.Bold
-            )
-        },
+        title = title,
         navigationIcon = {
             ErgoTopBarActionButton(rightAction)
         },

@@ -33,6 +33,9 @@ class ProfileViewModel @Inject constructor(
     private val _addresses = MutableStateFlow<List<AddressDTO>>(emptyList())
     val addresses: StateFlow<List<AddressDTO>> = _addresses
 
+    private val _skillsOptions = MutableStateFlow<List<String>>(emptyList())
+    val skillsOptions: StateFlow<List<String>> = _skillsOptions
+
     private val _isLoading = MutableStateFlow(false)
     val isLoading: StateFlow<Boolean> = _isLoading
 
@@ -98,6 +101,22 @@ class ProfileViewModel @Inject constructor(
             } catch (e: Exception) {
                 _error.value = e.message
             } finally {
+                _isLoading.value = false
+            }
+        }
+    }
+
+    fun loadSkillsOptions() {
+        viewModelScope.launch {
+            _isLoading.value = true
+            _error.value = null
+            try {
+                _skillsOptions.value = workerRepo.getSkillsOptions()
+            }
+            catch (e: Exception) {
+                _error.value = e.message
+            }
+            finally {
                 _isLoading.value = false
             }
         }
