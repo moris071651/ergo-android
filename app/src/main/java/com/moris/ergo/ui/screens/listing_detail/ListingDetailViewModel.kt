@@ -18,6 +18,7 @@ data class ListingDetailUiState(
     val isLoading: Boolean = true,
     val listing: ListingDetailInfo? = null,
     val worker: WorkerSummaryInfo? = null,
+    val customerUnauthenticated: Boolean = false,
     val error: String? = null
 )
 
@@ -48,21 +49,30 @@ class ListingDetailViewModel @Inject constructor(
                 visitRequired = l.visitRequired,
                 durationDays = l.durationDays,
                 ownerId = l.ownerId,
-                imageUrls = listOf()
+                imageUrls = listingRepository.getListingImagesById(listingId).map { it.url }
             )
 
             val worker = WorkerSummaryInfo(
                 id = w.userId,
                 name = "${u.firstName} ${u.lastName}",
                 skill = w.skills.firstOrNull() ?: "",
-                pfpUrl = "",
+                pfpUrl = u.profileImageUrl ?: "",
                 rating = 4.9,
                 yearsOfExperience = w.experienceYears
             )
 
+            val customerUnauthenticated = try {
+                val cu = userRepository.getCurrentUser()
+                cu.id != u.id
+            }
+            catch (_: Exception) {
+                false
+            }
+
             _uiState.value = ListingDetailUiState(
                 isLoading = false,
                 listing = listing,
+                customerUnauthenticated = customerUnauthenticated,
                 worker = worker
             )
         }
