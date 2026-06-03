@@ -63,7 +63,17 @@ class HomeViewModel@Inject constructor(
         viewModelScope.launch {
             _isLoading.value = true
             try {
-                _popularListings.value = listingRepository.getPopularListings(limit = 10, city = "sofia")
+                val listings = listingRepository.getPopularListings(limit = 10, city = "sofia")
+
+                val updatedListings = listings.map { listing ->
+                    val primaryImage = listingRepository.getListingPrimaryImagesById(listing.id)
+
+                    listing.apply {
+                        primaryImageUrl = primaryImage?.url ?: ""
+                    }
+                }
+
+                _popularListings.value = updatedListings
             }
             catch (e: Exception) {
                 Log.e("HomeViewModel", "Failed to load listings", e)
