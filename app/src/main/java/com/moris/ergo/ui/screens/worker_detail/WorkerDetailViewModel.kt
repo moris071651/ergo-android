@@ -42,7 +42,11 @@ class WorkerDetailViewModel @Inject constructor(
             try {
                 _user.value = userRepository.getUserById(userId)
                 _worker.value = workerRepository.getWorkerById(userId)
-                _listings.value = listingRepository.getWorkerListingsById(userId)
+                _listings.value = listingRepository.getWorkerListingsById(userId).map {
+                    it.apply {
+                        primaryImageUrl = listingRepository.getListingPrimaryImagesById(it.id)?.url ?: ""
+                    }
+                }
             }
             catch (e: Exception) {
                 _error.value = e.message ?: "Something Happened"

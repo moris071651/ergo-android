@@ -2,11 +2,13 @@ package com.moris.ergo.ui.screens.ongoing_bookings
 
 import android.content.Context
 import android.content.Intent
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -18,7 +20,6 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.CircularProgressIndicator
-import androidx.compose.material3.DividerDefaults
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -30,6 +31,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import com.moris.ergo.data.dto.BookingResponseDTO
@@ -47,18 +49,19 @@ fun OngoingBookingsScreen(
     val customerUnauthorized by viewModel.customerUnauthorized.collectAsState()
     val error by viewModel.error.collectAsState()
 
-    LaunchedEffect(Unit) {
+    LaunchedEffect(workerBookings) {
         viewModel.loadBookings()
     }
 
-    Box(modifier = Modifier.fillMaxSize()) {
-
+    Box(
+        modifier = Modifier
+            .fillMaxSize()
+            .background(MaterialTheme.colorScheme.background)
+    ) {
         when {
             isLoading -> {
-                CircularProgressIndicator(
-                    modifier = Modifier.align(Alignment.Center))
+                CircularProgressIndicator(modifier = Modifier.align(Alignment.Center))
             }
-
             error != null -> {
                 Text(
                     text = error!!,
@@ -66,7 +69,6 @@ fun OngoingBookingsScreen(
                     modifier = Modifier.align(Alignment.Center)
                 )
             }
-
             else -> {
                 LazyColumn(
                     modifier = Modifier.fillMaxSize(),
@@ -90,13 +92,15 @@ fun OngoingBookingsScreen(
                                 )
                             }
                         }
-
                         customerBookings.isNullOrEmpty() -> {
                             item {
-                                Text("No bookings yet")
+                                Text(
+                                    text = "No bookings yet",
+                                    style = MaterialTheme.typography.bodyMedium,
+                                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                                )
                             }
                         }
-
                         else -> {
                             items(customerBookings!!) { booking ->
                                 BookingCard(
@@ -110,7 +114,7 @@ fun OngoingBookingsScreen(
 
                     if (!workerBookings.isNullOrEmpty()) {
                         item {
-                            Spacer(Modifier.height(24.dp))
+                            Spacer(Modifier.height(8.dp))
                             Text(
                                 text = "Bookings as Worker",
                                 style = MaterialTheme.typography.titleLarge,
@@ -144,45 +148,74 @@ fun BookingCard(
         modifier = Modifier
             .fillMaxWidth()
             .clickable(onClick = onClick),
-        shape = RoundedCornerShape(12.dp),
-        elevation = CardDefaults.cardElevation(4.dp)
+        shape = RoundedCornerShape(16.dp),
+        elevation = CardDefaults.cardElevation(defaultElevation = 2.dp)
     ) {
         Column(
             modifier = Modifier.padding(16.dp),
-            verticalArrangement = Arrangement.spacedBy(6.dp)
+            verticalArrangement = Arrangement.spacedBy(8.dp)
         ) {
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.Top
+            ) {
+                Text(
+                    text = booking.listing.title,
+                    style = MaterialTheme.typography.titleMedium,
+                    fontWeight = FontWeight.Bold,
+                    maxLines = 2,
+                    overflow = TextOverflow.Ellipsis,
+                    modifier = Modifier
+                        .weight(1f)
+                        .padding(end = 8.dp)
+                        .clickable(onClick = onListingClick)
+                )
+                Text(
+                    text = booking.listing.priceString,
+                    style = MaterialTheme.typography.titleMedium,
+                    color = MaterialTheme.colorScheme.primary,
+                    fontWeight = FontWeight.Bold
+                )
+            }
+
+            HorizontalDivider(color = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.1f))
+
+            Column(verticalArrangement = Arrangement.spacedBy(4.dp)) {
+                Row(horizontalArrangement = Arrangement.spacedBy(6.dp)) {
+                    Text("State:", style = MaterialTheme.typography.bodySmall, fontWeight = FontWeight.SemiBold)
+                    Text(booking.state.toString(), style = MaterialTheme.typography.bodySmall)
+                }
+                Row(horizontalArrangement = Arrangement.spacedBy(6.dp)) {
+                    Text("From:", style = MaterialTheme.typography.bodySmall, fontWeight = FontWeight.SemiBold)
+                    Text(booking.startAt, style = MaterialTheme.typography.bodySmall)
+                }
+                Row(horizontalArrangement = Arrangement.spacedBy(6.dp)) {
+                    Text("To:", style = MaterialTheme.typography.bodySmall, fontWeight = FontWeight.SemiBold)
+                    Text(booking.endAt, style = MaterialTheme.typography.bodySmall)
+                }
+            }
 
             Text(
-                text = booking.listing.title,
-                style = MaterialTheme.typography.titleMedium,
-                fontWeight = FontWeight.Bold,
-                modifier = Modifier.clickable(onClick = onListingClick)
-            )
-
-            Text(
-                text = booking.listing.priceString,
-                color = MaterialTheme.colorScheme.primary
-            )
-
-            HorizontalDivider(Modifier, DividerDefaults.Thickness, DividerDefaults.color)
-
-            Text("State: ${booking.state}")
-            Text("From: ${booking.startAt}")
-            Text("To: ${booking.endAt}")
-
-            Text(
-                text = "Address: ${booking.address.label}, Coordinates: (${booking.address.lat}, ${booking.address.lon})",
-                modifier = Modifier.clickable() {
-                    openMap(context, booking.address.lat, booking.address.lon, booking.address.label)
-                },
-                style = MaterialTheme.typography.bodySmall
+                text = "Address: ${booking.address.label}",
+                style = MaterialTheme.typography.bodySmall,
+                color = MaterialTheme.colorScheme.primary,
+                fontWeight = FontWeight.Medium,
+                maxLines = 2,
+                overflow = TextOverflow.Ellipsis,
+                modifier = Modifier
+                    .clickable {
+                        openMap(context, booking.address.lat, booking.address.lon, booking.address.label)
+                    }
+                    .padding(vertical = 2.dp)
             )
 
             booking.reason?.let {
                 Text(
-                    text = it,
+                    text = "Reason: $it",
                     color = MaterialTheme.colorScheme.error,
-                    style = MaterialTheme.typography.bodySmall
+                    style = MaterialTheme.typography.bodySmall,
+                    fontWeight = FontWeight.Medium
                 )
             }
         }
