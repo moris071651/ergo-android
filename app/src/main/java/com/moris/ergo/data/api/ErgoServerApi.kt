@@ -1,6 +1,7 @@
 package com.moris.ergo.data.api
 
 import android.content.Context
+import com.moris.ergo.BuildConfig
 import com.moris.ergo.data.dto.AddressDTO
 import com.moris.ergo.data.dto.BecomeWorkerRequestDTO
 import com.moris.ergo.data.dto.BookingResponseDTO
@@ -8,8 +9,11 @@ import com.moris.ergo.data.dto.CreateAddressRequestDTO
 import com.moris.ergo.data.dto.CreateBookingRequestDTO
 import com.moris.ergo.data.dto.CreateBookingResponseDTO
 import com.moris.ergo.data.dto.CreateListingRequestDTO
+import com.moris.ergo.data.dto.CurrentUserPictureResponseDTO
 import com.moris.ergo.data.dto.CurrentUserResponseDTO
 import com.moris.ergo.data.dto.CurrentWorkerResponseDTO
+import com.moris.ergo.data.dto.EditListingRequestDTO
+import com.moris.ergo.data.dto.ListingImageResponseDTO
 import com.moris.ergo.data.dto.ListingResponseDTO
 import com.moris.ergo.data.dto.ListingResponsePublicDTO
 import com.moris.ergo.data.dto.PopularWorkerResponseDTO
@@ -19,20 +23,30 @@ import com.moris.ergo.data.dto.UserAuthResponseDTO
 import com.moris.ergo.data.dto.UserLoginRequestDTO
 import com.moris.ergo.data.dto.UserResponseDTO
 import com.moris.ergo.data.dto.UserSignupRequestDTO
+import com.moris.ergo.data.dto.UserUpdateRequestDTO
 import com.moris.ergo.data.dto.WorkerResponseDTO
+import com.moris.ergo.data.dto.WorkerUpdateRequestDTO
 import dagger.hilt.android.qualifiers.ApplicationContext
 import io.ktor.client.HttpClient
 import io.ktor.client.call.body
 import io.ktor.client.engine.cio.CIO
+import io.ktor.client.plugins.auth.Auth
+import io.ktor.client.plugins.auth.providers.BearerTokens
+import io.ktor.client.plugins.auth.providers.bearer
 import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
 import io.ktor.client.plugins.cookies.HttpCookies
 import io.ktor.client.request.delete
+import io.ktor.client.request.forms.MultiPartFormDataContent
+import io.ktor.client.request.forms.formData
 import io.ktor.client.request.get
 import io.ktor.client.request.parameter
 import io.ktor.client.request.patch
 import io.ktor.client.request.post
+import io.ktor.client.request.put
 import io.ktor.client.request.setBody
 import io.ktor.http.ContentType
+import io.ktor.http.Headers
+import io.ktor.http.HttpHeaders
 import io.ktor.http.contentType
 import io.ktor.http.isSuccess
 import io.ktor.serialization.kotlinx.json.json
@@ -44,6 +58,7 @@ import kotlinx.serialization.json.Json
 class ErgoServerApi @Inject constructor(
     @ApplicationContext context: Context
 ) {
+    private val BASE_URL = BuildConfig.EROG_SERVER_API
 
     private val client = HttpClient(CIO) {
         expectSuccess = true
@@ -55,9 +70,31 @@ class ErgoServerApi @Inject constructor(
         install(HttpCookies) {
             storage = PersistentCookieStorage(context)
         }
-    }
 
-    private val BASE_URL = "https://c21a2c47303f.ngrok-free.app"
+        install(Auth) {
+            bearer {
+                loadTokens {
+                    BearerTokens("", "")
+                }
+
+                refreshTokens {
+                    try {
+                        val response = client.post("$BASE_URL/api/v1/auth/refresh") {
+                            markAsRefreshTokenRequest()
+                        }
+
+                        if (response.status.isSuccess()) {
+                            BearerTokens("", "")
+                        } else {
+                            null
+                        }
+                    } catch (e: Exception) {
+                        null
+                    }
+                }
+            }
+        }
+    }
 
     suspend fun signup(request: UserSignupRequestDTO): UserAuthResponseDTO {
         return client.post("$BASE_URL/api/v1/auth/signup") {
@@ -89,11 +126,11 @@ class ErgoServerApi @Inject constructor(
         return try {
             val response = client.post("$BASE_URL/api/v1/auth/refresh")
             response.status.isSuccess()
-        }
-        catch (e: Exception) {
+        } catch (e: Exception) {
             false
         }
     }
+
     suspend fun getListings(
         minPrice: Float? = null,
         maxPrice: Float? = null,
@@ -117,13 +154,21 @@ class ErgoServerApi @Inject constructor(
     suspend fun getWorkerListingsById(userId: String): List<ListingResponsePublicDTO> =
         client.get("$BASE_URL/api/v1/workers/$userId/listings").body()
 
-    suspend fun bookListing(listingId: String, body: CreateBookingRequestDTO): CreateBookingResponseDTO =
+    suspend fun bookListing(
+        listingId: String,
+        body: CreateBookingRequestDTO
+    ): CreateBookingResponseDTO =
         client.post("$BASE_URL/api/v1/listings/$listingId/book") {
             contentType(ContentType.Application.Json)
             setBody(body)
         }.body()
+
     suspend fun getListingDetail(id: String): ListingResponsePublicDTO {
         return client.get("$BASE_URL/api/v1/listings/$id").body()
+    }
+
+    suspend fun getListingDetail1(id: String): ListingResponsePublicDTO {
+        return client.get("$BASE_URL/api/v1/workers/me/listings/$id").body()
     }
 
     suspend fun createAddress(address: CreateAddressRequestDTO): AddressDTO =
@@ -184,7 +229,10 @@ class ErgoServerApi @Inject constructor(
         client.delete("$BASE_URL/api/v1/workers/me/listings/$listingId")
     }
 
-    suspend fun toggleListingActive(listingId: String, request: ToggleListingActiveDTO): ListingResponseDTO =
+    suspend fun toggleListingActive(
+        listingId: String,
+        request: ToggleListingActiveDTO
+    ): ListingResponseDTO =
         client.patch("$BASE_URL/api/v1/workers/me/listings/$listingId") {
             contentType(ContentType.Application.Json)
             setBody(request)
@@ -234,4 +282,67 @@ class ErgoServerApi @Inject constructor(
             parameter("limit", limit)
         }.body()
     }
+
+    suspend fun updateUser(request: UserUpdateRequestDTO): CurrentUserResponseDTO {
+        return client.patch("$BASE_URL/api/v1/users/me") {
+            contentType(ContentType.Application.Json)
+            setBody(request)
+        }.body()
+    }
+
+    suspend fun uploadUserPicture(imageBytes: ByteArray): CurrentUserPictureResponseDTO {
+        return client.put("$BASE_URL/api/v1/users/me/picture") {
+            setBody(
+                MultiPartFormDataContent(
+                    formData {
+                        append("file", imageBytes, Headers.build {
+                            append(HttpHeaders.ContentType, "image/jpeg")
+                            append(HttpHeaders.ContentDisposition, "filename=\"profile.jpg\"")
+                        })
+                    }
+                )
+            )
+        }.body()
+    }
+
+    suspend fun updateWorkerProfile(request: WorkerUpdateRequestDTO): WorkerResponseDTO {
+        return client.patch("$BASE_URL/api/v1/workers/me") {
+            contentType(ContentType.Application.Json)
+            setBody(request)
+        }.body()
+    }
+
+    suspend fun getListingImagesById(listingId: String): List<ListingImageResponseDTO> =
+        client.get("$BASE_URL/api/v1/listings/$listingId/images").body()
+
+    suspend fun getListingPrimaryImagesById(listingId: String): ListingImageResponseDTO =
+        client.get("$BASE_URL/api/v1/listings/$listingId/images/primary").body()
+
+    suspend fun uploadListingImagesById(listingId: String, imageBytes: List<ByteArray>): ListingImageResponseDTO {
+        return client.post("$BASE_URL/api/v1/listings/$listingId/images") {
+            setBody(
+                MultiPartFormDataContent(
+                    formData {
+                        imageBytes.forEachIndexed { index, bytes ->
+                            val filename = "image_${index}_${System.currentTimeMillis()}.jpg"
+
+                            append("images", bytes, Headers.build {
+                                append(HttpHeaders.ContentType, "image/jpeg")
+                                append(HttpHeaders.ContentDisposition, "filename=\"$filename\"")
+                            })
+                        }
+                    }
+                )
+            )
+        }.body()
+    }
+
+    suspend fun editListing(listingId: String, request: EditListingRequestDTO): ListingResponsePublicDTO =
+        client.patch("$BASE_URL/api/v1/workers/me/listings/$listingId") {
+            contentType(ContentType.Application.Json)
+            setBody(request)
+        }.body()
+
+    suspend fun getSkillsOptions(): List<String> =
+        client.get("$BASE_URL/api/v1/workers/skills/").body()
 }

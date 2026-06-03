@@ -15,6 +15,13 @@ data class CreateListingRequestDTO(
 )
 
 @Serializable
+data class EditListingRequestDTO(
+    val title: String,
+    val description: String,
+    @SerialName("price_cents") val priceCents: Int,
+)
+
+@Serializable
 data class ListingResponseDTO(
     val id: String,
     @SerialName("owner_id") val ownerId: String,

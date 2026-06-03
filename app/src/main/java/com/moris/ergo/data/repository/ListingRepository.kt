@@ -2,6 +2,9 @@ package com.moris.ergo.data.repository
 
 import com.moris.ergo.data.dto.CreateListingRequestDTO
 import com.moris.ergo.data.api.ErgoServerApi
+import com.moris.ergo.data.dto.CurrentUserPictureResponseDTO
+import com.moris.ergo.data.dto.EditListingRequestDTO
+import com.moris.ergo.data.dto.ListingImageResponseDTO
 import com.moris.ergo.data.dto.ListingResponseDTO
 import com.moris.ergo.data.dto.ListingResponsePublicDTO
 import com.moris.ergo.data.dto.ToggleListingActiveDTO
@@ -13,6 +16,7 @@ interface ListingRepository {
     suspend fun getPopularListings(limit: Int? = null, city: String? = null): List<ListingBriefInfo>
     suspend fun getWorkerListingsById(userId: String): List<ListingBriefInfo>
     suspend fun getListingDetail2(id: String): ListingResponsePublicDTO
+    suspend fun getListingDetail3(id: String): ListingResponsePublicDTO
     suspend fun getListingById(listingId: String): ListingResponsePublicDTO
     suspend fun getListingDetail(id: String): ListingDetailInfo
     suspend fun getMyListings(): List<ListingResponseDTO>
@@ -20,6 +24,11 @@ interface ListingRepository {
     suspend fun deleteListing(id: String)
     suspend fun toggleListingActive(id: String, request: ToggleListingActiveDTO): ListingResponseDTO
     suspend fun searchListingByCity(query: String, city: String?): List<ListingResponsePublicDTO>
+    suspend fun uploadListingImagesById(listingId: String, imageBytes: List<ByteArray>): ListingImageResponseDTO
+    suspend fun getListingImagesById(listingId: String): List<ListingImageResponseDTO>
+    suspend fun getListingPrimaryImagesById(listingId: String): ListingImageResponseDTO?
+    suspend fun editListing(listingId: String, request: EditListingRequestDTO): ListingResponsePublicDTO
+
 }
 
 class ListingRepositoryImpl @Inject constructor(
@@ -34,7 +43,7 @@ class ListingRepositoryImpl @Inject constructor(
                 description = it.description ?: "",
                 priceString = it.priceString,
                 rating = 4.0, // placeholder
-                primaryImageUrl = "" // placeholder
+                primaryImageUrl = ""
             )
         }
     }
@@ -47,7 +56,7 @@ class ListingRepositoryImpl @Inject constructor(
                 description = it.description ?: "",
                 priceString = it.priceString,
                 rating = 4.0, // placeholder
-                primaryImageUrl = "" // placeholder
+                primaryImageUrl = ""
             )
         }
     }
@@ -70,6 +79,10 @@ class ListingRepositoryImpl @Inject constructor(
     override suspend fun getListingDetail2(id: String): ListingResponsePublicDTO =
         api.getListingDetail(id)
 
+    override suspend fun getListingDetail3(id: String): ListingResponsePublicDTO =
+        api.getListingDetail1(id)
+
+
     override suspend fun getListingById(listingId: String): ListingResponsePublicDTO =
         api.getListingById(listingId)
 
@@ -81,4 +94,18 @@ class ListingRepositoryImpl @Inject constructor(
 
     override suspend fun searchListingByCity(query: String, city: String?): List<ListingResponsePublicDTO> =
         api.searchListingByCity(query, city)
+
+    override suspend fun getListingImagesById(listingId: String): List<ListingImageResponseDTO> =
+        api.getListingImagesById(listingId)
+
+    override suspend fun uploadListingImagesById(listingId: String, imageBytes: List<ByteArray>): ListingImageResponseDTO =
+        api.uploadListingImagesById(listingId, imageBytes)
+
+    override suspend fun getListingPrimaryImagesById(listingId: String): ListingImageResponseDTO? =
+        try { api.getListingPrimaryImagesById(listingId) }
+        catch (_: Exception) { null }
+
+    override suspend fun editListing(listingId: String, request: EditListingRequestDTO): ListingResponsePublicDTO =
+        api.editListing(listingId, request)
+
 }

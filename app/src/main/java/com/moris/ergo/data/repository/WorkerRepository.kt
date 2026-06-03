@@ -7,6 +7,7 @@ import com.moris.ergo.data.api.ErgoServerApi
 import com.moris.ergo.data.dto.PopularWorkerResponseDTO
 import com.moris.ergo.data.dto.StripeOnboardingLinkDTO
 import com.moris.ergo.data.dto.WorkerResponseDTO
+import com.moris.ergo.data.dto.WorkerUpdateRequestDTO
 import com.moris.ergo.data.mapper.toWorkerBriefInfo
 import com.moris.ergo.data.scheme.WorkerBriefInfo
 import io.ktor.client.plugins.ClientRequestException
@@ -20,6 +21,8 @@ interface WorkerRepository {
     suspend fun getStripeOnboardingLink(): StripeOnboardingLinkDTO
     suspend fun getWorkerById(userId: String): WorkerResponseDTO
     suspend fun getPopularWorkerByCity(limit: Int, city: String): List<WorkerBriefInfo>
+    suspend fun updateWorkerProfile(request: WorkerUpdateRequestDTO): WorkerResponseDTO
+    suspend fun getSkillsOptions(): List<String>
 }
 
 @Singleton
@@ -56,7 +59,13 @@ class WorkerRepositoryImpl @Inject constructor(
 
     override suspend fun getPopularWorkerByCity(limit: Int, city: String): List<WorkerBriefInfo> =
         api.getPopularWorker(limit = limit, city = city).map {
-            Log.d("DEBUG32", it.userId)
             it.toWorkerBriefInfo()
         }
+
+    override suspend fun updateWorkerProfile(request: WorkerUpdateRequestDTO): WorkerResponseDTO =
+        api.updateWorkerProfile(request)
+
+    override suspend fun getSkillsOptions(): List<String> =
+        api.getSkillsOptions()
+
 }

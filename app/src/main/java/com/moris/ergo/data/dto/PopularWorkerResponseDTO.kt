@@ -10,6 +10,9 @@ data class PopularWorkerResponseDTO(
 
     val bio: String? = null,
 
+    @SerialName("profile_image_url")
+    val profileImageUrl: String? = null,
+
     @SerialName("service_radius_km")
     val serviceRadiusKm: Int? = null,
 

@@ -6,5 +6,5 @@ data class ListingBriefInfo(
     val rating: Double,
     val priceString: String,
     val description: String,
-    val primaryImageUrl: String
+    var primaryImageUrl: String
 )
