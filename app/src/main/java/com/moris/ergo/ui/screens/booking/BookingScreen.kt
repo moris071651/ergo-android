@@ -106,11 +106,10 @@ fun BookingContent(
             AddressDropdown(
                 label = "Service Address",
                 items = addresses,
-                selectedId = addresses.firstOrNull { it.id == selectedAddressId }?.label,
+                selectedId = selectedAddressId,
                 onSelect = { selectedAddressId = it.id },
             )
 
-            // Start Date Input Area Trigger Box
             Box(modifier = Modifier.fillMaxWidth()) {
                 OutlinedTextField(
                     value = startAt,
@@ -141,7 +140,7 @@ fun BookingContent(
                     trailingIcon = { Icon(Icons.Default.DateRange, contentDescription = null) },
                     modifier = Modifier.fillMaxWidth(),
                     singleLine = true,
-                    readOnly = true // Prevents physical keyboard popups
+                    readOnly = true
                 )
                 Box(
                     modifier = Modifier
