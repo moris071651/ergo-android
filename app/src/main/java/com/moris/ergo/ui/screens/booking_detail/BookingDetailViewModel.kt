@@ -33,6 +33,9 @@ class BookingDetailViewModel @Inject constructor(
     private val _isWorker = MutableStateFlow<Boolean?>(null)
     val isWorker = _isWorker.asStateFlow()
 
+    private val _workerEmail = MutableStateFlow<String?>(null)
+    val workerEmail = _workerEmail.asStateFlow()
+
     fun loadBooking(bookingId: String) {
         viewModelScope.launch {
             _isLoading.value = true
@@ -40,6 +43,10 @@ class BookingDetailViewModel @Inject constructor(
                 _booking.value = repository.getBookingByIdCustomer(bookingId)
                 _user.value = userRepo.getCurrentUser()
                 _isWorker.value = _user.value!!.id  == _booking.value!!.workerId
+
+                if (!(_isWorker.value ?: false)) {
+                    _workerEmail.value = _user.value?.email
+                }
             }
             catch (e: Exception) {
                 _error.value = e.message

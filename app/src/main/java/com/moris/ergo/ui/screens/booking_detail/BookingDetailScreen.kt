@@ -1,7 +1,9 @@
 package com.moris.ergo.ui.screens.booking_detail
 
+import android.content.Context
 import android.util.Log
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -29,6 +31,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -42,17 +45,19 @@ import com.stripe.android.paymentsheet.PaymentSheet
 import com.stripe.android.paymentsheet.PaymentSheet.Builder
 import com.stripe.android.paymentsheet.PaymentSheetResult
 
-
 @Composable
 fun BookingDetailScreen(
     bookingId: String,
     onPaymentSuccess: () -> Unit,
+    onContactClick: (String, Context) -> Unit,
     viewModel: BookingDetailViewModel = hiltViewModel()
 ) {
     val booking by viewModel.booking.collectAsState()
     val isLoading by viewModel.isLoading.collectAsState()
     val error by viewModel.error.collectAsState()
     val isWorker by viewModel.isWorker.collectAsState()
+    val workerEmail by viewModel.workerEmail.collectAsState()
+    val context = LocalContext.current
 
     LaunchedEffect(bookingId) {
         viewModel.loadBooking(bookingId)
@@ -107,7 +112,9 @@ fun BookingDetailScreen(
                 BookingDetailContent(
                     booking = booking!!,
                     isWorker = isWorker == true,
+                    workerEmail = workerEmail,
                     onPay = onPayAction,
+                    onContactClick = { onContactClick(it, context) },
                     onAccept = { viewModel.acceptBooking(booking!!.id) },
                     onReject = { viewModel.rejectBooking(booking!!.id) },
                     onStartWork = { viewModel.startBooking(booking!!.id) },
@@ -124,6 +131,8 @@ fun BookingDetailScreen(
 fun BookingDetailContent(
     booking: BookingResponseDTO,
     isWorker: Boolean,
+    workerEmail: String?,
+    onContactClick: (String) -> Unit,
     onPay: (String) -> Unit,
     onAccept: () -> Unit,
     onReject: () -> Unit,
@@ -175,6 +184,27 @@ fun BookingDetailContent(
                 }
             }
 
+            if (!workerEmail.isNullOrEmpty()) {
+                item {
+                    Column(verticalArrangement = Arrangement.spacedBy(6.dp)) {
+                        Text(
+                            text = "Worker Email",
+                            style = MaterialTheme.typography.titleMedium,
+                            fontWeight = FontWeight.SemiBold
+                        )
+
+                        Text(
+                            text = workerEmail,
+                            fontWeight = FontWeight.Medium,
+                            color = MaterialTheme.colorScheme.primary,
+                            modifier = Modifier.clickable() {
+                                onContactClick(workerEmail)
+                            }
+                        )
+                    }
+                }
+            }
+
             item {
                 Column(verticalArrangement = Arrangement.spacedBy(6.dp)) {
                     Text(
@@ -190,6 +220,8 @@ fun BookingDetailContent(
                     )
                 }
             }
+
+
 
             booking.reason?.let {
                 item {
@@ -372,7 +404,8 @@ fun DetailContentPreview() {
         BookingDetailContent(
             booking = mockBooking,
             isWorker = true,
-            onPay = {}, onAccept = {}, onReject = {}, onStartWork = {}, onFinishPending = {}, onConfirmFinish = {}, onDenyFinish = {}
+            workerEmail = "null@example.com",
+            onPay = {}, onAccept = {}, onReject = {}, onStartWork = {}, onFinishPending = {}, onConfirmFinish = {}, onDenyFinish = {}, onContactClick = {}
         )
     }
 }

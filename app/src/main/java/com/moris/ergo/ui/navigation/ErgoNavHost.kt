@@ -1,5 +1,6 @@
 package com.moris.ergo.ui.navigation
 
+import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import com.moris.ergo.ui.screens.home.HomeScreen
@@ -32,6 +33,25 @@ fun ErgoNavHost(
     navController: NavHostController,
     modifier: Modifier = Modifier
 ) {
+    val onContactClick = { email: String, context: Context ->
+        val intent = Intent(Intent.ACTION_SENDTO).apply {
+            data = ("mailto:" + Uri.encode(email)).toUri()
+
+            setPackage("com.google.android.apps.gmail")
+        }
+
+        try {
+            context.startActivity(intent)
+        }
+        catch (_: Exception) {
+            val fallbackIntent = Intent(Intent.ACTION_SENDTO).apply {
+                data = ("mailto:" + Uri.encode(email)).toUri()
+            }
+
+            context.startActivity(Intent.createChooser(fallbackIntent, "Send email via..."))
+        }
+    }
+
     NavHost(
         navController = navController,
         startDestination = "home",
@@ -64,24 +84,7 @@ fun ErgoNavHost(
             WorkerDetailScreen(
                 userId = userId,
                 onListingClick = { navController.navigate("detail/listings/$it") },
-                onContactClick = { email, context ->
-                    val intent = Intent(Intent.ACTION_SENDTO).apply {
-                        data = ("mailto:" + Uri.encode(email)).toUri()
-
-                        setPackage("com.google.android.apps.gmail")
-                    }
-
-                    try {
-                        context.startActivity(intent)
-                    }
-                    catch (_: Exception) {
-                        val fallbackIntent = Intent(Intent.ACTION_SENDTO).apply {
-                            data = ("mailto:" + Uri.encode(email)).toUri()
-                        }
-
-                        context.startActivity(Intent.createChooser(fallbackIntent, "Send email via..."))
-                    }
-                }
+                onContactClick = onContactClick
             )
         }
         composable("profile") {
@@ -183,6 +186,7 @@ fun ErgoNavHost(
 
             BookingDetailScreen(
                 bookingId = bookingId,
+                onContactClick = onContactClick,
                 onPaymentSuccess = { },
             )
         }
